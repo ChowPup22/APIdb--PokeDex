@@ -1,2 +1,3 @@
-# APIdb
- API data based website
+# APIdb-- Pokedex API
+
+Interactive Pokedex built using JS & PokeAPI
