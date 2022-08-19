@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./css/styles.css">
+  <title>PokeAPI Shortlist</title>
+</head>
+<body>
+
+  <h1 class="section-title">Pokemon Shortlist</h1>
+  
+  <div class="sort-body">
+    <div class="btn-group">
+      <button data-sorter="asc" class="sort-btn">A to Z</button>
+      <button data-sorter="dec" class="sort-btn">Z to A</button>
+    </div>
+  </div>
+
+  <h2 class="section-title">Pokedex</h2>
+  <hr>
+  <div id="pokedex" class="pokedex-grid">
+
+  </div>
+  
+  <h2 class="section-title">Poke Collection</h2>
+  <hr>
+  <div id="poke-grid" class="poke-grid">
+    
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
