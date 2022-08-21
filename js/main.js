@@ -8,10 +8,8 @@ const addFavArray = (card) => {
     if (pokeArray[i].Name === card.dataset.order) {
       pokeDexArr.push(pokeArray[i]);
       pokeArray.splice(i, 1);
-
     }
   }
-  console.log(pokeArray);
 }
 
 const remFavArray = (card) => {
@@ -19,13 +17,19 @@ const remFavArray = (card) => {
     if (pokeDexArr[i].Name === card.dataset.order) {
       pokeArray.push(pokeDexArr[i]);
       pokeDexArr.splice(i, 1);
-      
     }
   }
-  console.log(pokeDexArr);
 }
 
-newPokeCard = (res) => {
+const setDisplay = (card, arr) => {
+  if (arr === 'pokeArray') {
+    document.getElementById('poke-grid').appendChild(card)
+  } else if (arr === 'pokeDexArr') {
+    document.getElementById('pokedex').appendChild(card);
+  }
+}
+
+newPokeCard = (res, arr = 'pokeArray') => {
   res.forEach(obj => {
     const tree = document.createDocumentFragment();
     const cardWrap = document.createElement('div');
@@ -55,7 +59,12 @@ newPokeCard = (res) => {
     ability.appendChild(document.createTextNode(`Ability: ${obj.Ability}`));
     popUp.appendChild(ability);
     tree.appendChild(cardWrap);
-    document.getElementById('poke-grid').appendChild(tree);
+
+    if (arr === 'pokeDexArr') {
+      cardWrap.classList.add(active);
+    }
+
+    setDisplay(tree, arr);
 
   })
   const isFav = document.querySelectorAll('.poke-card');
@@ -71,14 +80,12 @@ newPokeCard = (res) => {
       document.getElementById('poke-grid').appendChild(card.currentTarget);
     };
   }
-
   isFav.forEach(card => {
     card.addEventListener('click', setFav, false);
   })
 }
 
 const sorter = document.querySelectorAll('.sort-btn');
-
 
 const setActive = (elm, selector) => {
   if (document.querySelector(`${selector}.${active}`) !== null) {
@@ -89,29 +96,60 @@ const setActive = (elm, selector) => {
 
 const sortCards = (val) => {
   if (val === 'asc') {
-    pokeArray[0].sort(function(a, b) {
-      if (a.Name.toLowerCase() < b.Name.toLowerCase()
-      ) return -1;
-      if (a.Name.toLowerCase() > b.Name.toLowerCase()
-      ) return 1;
-      return 0;
-    });
-    console.log(pokeArray);
-    console.log(pokeDexArr);
-    document.getElementById('poke-grid').innerHTML = '';
-    pokeArray.forEach((obj) => newPokeCard(obj));
+    if (pokeArray.length > 1) {
+      pokeArray.sort(function(a, b) {
+        if (a.Name.toLowerCase() < b.Name.toLowerCase()
+        ) return -1;
+        if (a.Name.toLowerCase() > b.Name.toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      document.getElementById('poke-grid').innerHTML = '';
+      newPokeCard(pokeArray, 'pokeArray');
+    } else {
+      return
+    }
+    if (pokeDexArr.length > 1) {
+      pokeDexArr.sort(function(a, b) {
+        if (a.Name.toLowerCase() < b.Name.toLowerCase()
+        ) return -1;
+        if (a.Name.toLowerCase() > b.Name.toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      document.getElementById('pokedex').innerHTML = '';
+      newPokeCard(pokeDexArr, 'pokeDexArr');
+    } else {
+      return
+    }
+
   } else if (val === 'dec') {
-    pokeArray[0].sort(function(a, b) {
-      if (b.Name.toLowerCase() < a.Name.toLowerCase()
-      ) return -1;
-      if (b.Name.toLowerCase() > a.Name.toLowerCase()
-      ) return 1;
-      return 0;
-    });
-    console.log(pokeArray);
-    console.log(pokeDexArr);
-    document.getElementById('poke-grid').innerHTML = '';
-    pokeArray.forEach((obj) => newPokeCard(obj));
+    if (pokeArray.length > 1) {
+      pokeArray.sort(function(a, b) {
+        if (b.Name.toLowerCase() < a.Name.toLowerCase()
+        ) return -1;
+        if (b.Name.toLowerCase() > a.Name.toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      document.getElementById('poke-grid').innerHTML = '';
+      newPokeCard(pokeArray, 'pokeArray');
+    } else {
+      return
+    }
+    if (pokeDexArr.length > 1) {
+      pokeDexArr.sort(function(a, b) {
+        if (b.Name.toLowerCase() < a.Name.toLowerCase()
+        ) return -1;
+        if (b.Name.toLowerCase() > a.Name.toLowerCase()
+        ) return 1;
+        return 0;
+      });
+      document.getElementById('pokedex').innerHTML = '';
+      newPokeCard(pokeDexArr, 'pokeDexArr');
+    } else {
+      return
+    }
   }
 }
 
@@ -138,11 +176,10 @@ const getData = () => {
       Type: r.types.map((type) => type.type.name).join(', '),
       Ability: r.abilities.map((ability) => ability.ability.name).join(', '),
     }));
-    pokeArray.push(pokemon);
+    pokeArray = [...pokemon];
     newPokeCard(pokemon);
   })
   .catch(err => console.log('Fetch failed: ', err));
 }
 
 getData();
-
