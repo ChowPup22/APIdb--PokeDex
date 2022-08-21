@@ -1,4 +1,5 @@
 const active = 'active';
+const typesArr = ['normal', 'fire', 'water', 'grass', 'flying', 'fighting', 'poison', 'electric', 'ground', 'rock', 'psychic', 'ice', 'bug', 'ghost', 'steel', 'dragon', 'dark', 'fairy'];
 let pokeArray = [];
 let pokeDexArr = [];
 
@@ -82,8 +83,38 @@ newPokeCard = (res, arr = 'pokeArray') => {
   }
   isFav.forEach(card => {
     card.addEventListener('click', setFav, false);
-  })
+  })  
 }
+
+
+const typeGraph = (typeName, total) => {
+  const tree = document.createDocumentFragment();
+  const wrap = document.createElement('div');
+  wrap.classList.add('type-wrap');
+  const info = document.createElement('p');
+  info.appendChild(document.createTextNode(`${typeName}: ${total}`));
+  wrap.appendChild(info);
+  tree.appendChild(wrap);
+  document.getElementById('type-total').appendChild(tree);
+}
+
+const typeTotal = (typeName, arr) => {
+  let typeArr = [];
+  let j = 0;
+  for (let i = 0; i < arr.length; i++) {
+    typeArr.push(arr[i].Type.split(', '));
+  }
+  typeArr.flat().forEach((type) => {
+    if (type === typeName) {
+      j++;
+    }
+  })
+  if (j > 0) {
+    return typeGraph(typeName, j);
+  }
+} 
+
+
 
 const sorter = document.querySelectorAll('.sort-btn');
 
@@ -177,7 +208,8 @@ const getData = () => {
       Ability: r.abilities.map((ability) => ability.ability.name).join(', '),
     }));
     pokeArray = [...pokemon];
-    newPokeCard(pokemon);
+    typesArr.forEach((type) => typeTotal(type, pokeArray));
+    newPokeCard(pokeArray);
   })
   .catch(err => console.log('Fetch failed: ', err));
 }

@@ -52,6 +52,16 @@ body hr {
   background-color: #ced4e7;
 }
 
+.type-total {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 5px 30px;
+}
+
+.type-wrap {
+  min-width: 75px;
+}
 
 .poke-grid, .pokedex-grid {
   display: flex;
